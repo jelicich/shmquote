@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { BnaService } from './services/bna.service';
+import { ProductRowComponent } from './components/product-row/product-row.component';
 
 @Component({
     selector: 'app-root',
@@ -7,6 +8,9 @@ import { BnaService } from './services/bna.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+    
+    @ViewChildren(ProductRowComponent) productRows: QueryList<ProductRowComponent>;
+    
     title = 'shmquote';
     rows = [{
         id: this.generateId(),
@@ -33,6 +37,56 @@ export class AppComponent implements OnInit{
 
     deleteRow(id) {
         this.rows = this.rows.filter(row => row.id !== id);
+    }
+
+    copyToClipboard() {
+        // this.productRows.forEach(row => console.log(row));
+        let table = this.generateTable();
+
+		const el = document.createElement('div');
+		el.innerHTML = table;
+		document.body.appendChild(el);
+
+		window.getSelection().removeAllRanges()
+
+		// el.select();
+		var range = document.createRange()
+		range.selectNode(el)
+		window.getSelection().addRange(range)
+
+		document.execCommand('copy')
+		
+		document.body.removeChild(el);
+    }
+
+    generateTable() {
+        let rows = '';
+        this.productRows.forEach((row) => {
+            rows += row.generateTableRow();
+        });
+
+        const table = `
+			<table style="border-collapse: collapse; width: 1200px;" >
+				<tr>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">SKU</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Nombre</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio USD</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio AR$</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">IVA</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Cant.</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe USD</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe AR$</td>
+				</tr>
+                ${rows}
+                <tr>
+                    <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" colspan="6">Total: </td>
+                    <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fTotal}</td>
+                    <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fTotalAr}</td>
+                </tr>
+			</table>
+		`;
+		// console.log(table);
+		return table;
     }
 
     updateTotals(newTotals) {

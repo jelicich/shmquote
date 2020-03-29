@@ -1,7 +1,7 @@
 label {
     font-size: 12px;
     color: #666;
-    padding: 10px;
+    padding: 5px;
 }
 
 .Input {
@@ -11,6 +11,11 @@ label {
     border-radius: 5px;
     display: block;
     border: 2px solid #ddd;
+
+    &[type="text"], 
+    &[type="number"] {
+        height: 17px;
+    }
 }
 
 .Input-number {
@@ -18,11 +23,11 @@ label {
 }
 
 .Input-sku {
-    width: 100px;
+    width: 80px;
 }
 
 .Input-name {
-    width: 200px;
+    width: 188px;
 }
 
 .Input-small {
@@ -30,7 +35,7 @@ label {
 }
 
 .Input-price {
-    width: 100px;
+    width: 70px;
 }
 
 select {
@@ -44,23 +49,26 @@ select {
     .label {
         font-size: 12px;
         color: #666;
-        padding: 10px 0 5px;
+        padding: 5px 0 5px;
         display: block
     }
 
     .currency {
         color: #666;
         font-weight: normal;
+        font-size: 12px;
     }
 
     p{
-        padding: 5px 10px;
+        text-align: right;
+        padding: 7px 10px;
         font-weight: bold;
         background: #ddd;
         border-radius: 5px;
         margin: 0; 
         height: 30px;
         box-sizing: border-box;
-        width: 150px;
+        width: 130px;
+        font-size: 14px;
     }
 }

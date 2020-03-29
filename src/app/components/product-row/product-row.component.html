@@ -1,4 +1,4 @@
-<div fxLayout="row">
+<div fxLayout="row" class="ProductRow">
     <label>
         SKU
         <input class="Input Input-sku" type="text" placeholder="SKU" [(ngModel)]="sku">
@@ -62,8 +62,11 @@
         <p><span class="currency">USD</span> {{finalPrice}}</p>
     </div> -->
     
-    <button (click)="copyToClipboard()">Copy</button>
-    <button (click)="deleteRow()">X</button>
+    <div>
+        <button (click)="copyToClipboard()" title="Copiar" class="Button Button-icon"><i class="material-icons">file_copy</i></button>
+        <button (click)="deleteRow()" title="Eliminar" class="Button Button-icon Button-danger"><i class="material-icons">remove_circle</i></button>
+    </div>  
+    
     
     
 </div>

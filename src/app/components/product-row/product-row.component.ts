@@ -36,6 +36,8 @@ export class ProductRowComponent implements OnInit {
 	fTotalPrice: string;
 	fTotalPriceAr: string;
 
+	tableRow: string;
+
 	constructor(
 		//private bnaService: BnaService
 	) { }
@@ -78,6 +80,8 @@ export class ProductRowComponent implements OnInit {
 			this.fTotalPrice = nfObject.format(this.totalPrice);
 			this.fTotalPriceAr = nfObject.format(this.totalPriceAr); 
 
+			this.tableRow = this.generateTableRow();
+
 			this.update.emit({
 				id: this.componentId,
 				totalPrice: this.totalPrice,
@@ -91,7 +95,7 @@ export class ProductRowComponent implements OnInit {
 	}
 
 	generateTable(){
-		let table = `
+		const table = `
 			<table style="border-collapse: collapse; width: 1200px;" >
 				<tr>
 					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">SKU</td>
@@ -103,20 +107,27 @@ export class ProductRowComponent implements OnInit {
 					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe USD</td>
 					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe AR$</td>
 				</tr>
-				<tr>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.sku}</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse; width: 300px;">${this.name}</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fPrice}</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fPriceAr}</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.iva}</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.quantity}</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fTotalPrice}</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fTotalPriceAr}</td>
-				</tr>
+				${this.generateTableRow()}
 			</table>
 		`;
 		// console.log(table);
 		return table;
+	}
+
+	generateTableRow() {
+		const tr = `
+			<tr>
+				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.sku}</td>
+				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse; width: 300px;">${this.name}</td>
+				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fPrice}</td>
+				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fPriceAr}</td>
+				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.iva}</td>
+				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.quantity}</td>
+				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fTotalPrice}</td>
+				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fTotalPriceAr}</td>
+			</tr>
+		`;
+		return tr;
 	}
 
 	copyToClipboard() {

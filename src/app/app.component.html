@@ -2,8 +2,28 @@
 
 <div class="AppBody">
     <ProductRowComponent *ngFor="let row of rows" [props]="row" [usd]="usd" (remove)="deleteRow($event)" (update)="updateTotals($event)"></ProductRowComponent>
-    <div>Total USD: {{fTotal}} | Total AR$ {{fTotalAr}}</div>
-    <button (click)="addRow()">+ Producto</button>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+        <div>
+            <button (click)="addRow()" class="Button Button-icon-text Button-success u-marginRm" title="Agregar producto"><i class="material-icons">add_circle</i><span> Agregar</span></button>
+            <button (click)="copyToClipboard()" class="Button Button-icon-text" title="Copiar todo"><i class="material-icons">file_copy</i><span> Copiar</span></button>
+        </div>
+        <div class="Total">
+            <p class="Total-title">Total</p>
+            <div fxLayout="row" fxLayoutAlign="end">
+                <div class="u-marginRm">
+                    <p><span class="Text-muted">USD </span> <strong>{{fTotal}}</strong></p>
+                </div>
+                <div class="u-marginRm"><p class="Text-muted"> | </p></div>
+                <div>
+                    <p><span class="Text-muted">AR$ </span> <strong>{{fTotalAr}}</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+    
+    
 </div>
 
 <router-outlet></router-outlet>
