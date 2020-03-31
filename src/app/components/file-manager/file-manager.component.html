@@ -1,0 +1,18 @@
+<div class="FileManager-overlay" *ngIf="isOpen">
+    <div class="FileManager-window">
+        <h1>Abrir cotización:</h1>
+        <ul>
+            <li *ngFor="let file of files; let i = index" (click)="selectFile($event, i)">
+                {{ file }}
+            </li>
+        </ul>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <button class="Button Button-icon-text" (click)="openFile()">
+                Abrir
+            </button>
+            <button class="Button Button-danger Button-icon-text" (click)="close()">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="PdfExporter-overlay" *ngIf="isOpen">
+    <div class="PdfExporter-window" fxLayout="column">
+        <h1>Exportar PDF</h1>
+
+        <div class="PdfExporter-fields" fxLayout="column">
+            <label>
+                <input type="checkbox" [(ngModel)]="includeText" />
+                Incluir texto
+            </label>
+            <div fxLayout="column" class="PdfExporter-textInputs">
+                <input type="text" [(ngModel)]="greeting" placeholder="Estimados 'Empresa'," [disabled]="!includeText">
+                <textarea [(ngModel)]="mainContent" placeholder="A continuación detallamos los productos solicitados..." [disabled]="!includeText"></textarea>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <button class="Button Button-icon-text" (click)="exportPdf()">
+                Ok
+            </button>
+            <button class="Button Button-danger Button-icon-text" (click)="close()">
+                Cancelar
+            </button>
+        </div>
+
+        
+    </div>
+</div>

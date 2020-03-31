@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {tax} from '../../config/quote';
-//import { BnaService } from '../../services/bna.service';
-
 
 @Component({
 	selector: 'ProductRowComponent',
@@ -38,16 +36,21 @@ export class ProductRowComponent implements OnInit {
 
 	tableRow: string;
 
-	constructor(
-		//private bnaService: BnaService
-	) { }
+	constructor() { }
 
 	ngOnInit(): void {
 		this.componentId = this.props.id;
-		//console.log(this.bnaService.getUsd());
-		// this.bnaService.getUsd().then((data) => {
-		// 	console.log('USD LLEGO! ', data)
-		// });
+		
+		//populate if provided
+		this.sku = this.props.sku || '';
+		this.name = this.props.name || '';
+		this.buyPrice = parseFloat(this.props.buyPrice) || null;
+		this.quantity = parseInt(this.props.quantity) || null;
+		this.profit = parseFloat(this.props.profit) || null;
+		this.iva = this.props.iva || '10.5';
+		this.impInt = this.props.impInt || '0';
+		
+		this.calculatePrice();
 	}
 
 	calculatePrice() {
@@ -157,5 +160,31 @@ export class ProductRowComponent implements OnInit {
 			totalPriceAr: this.totalPriceAr
 		}
 	}
+
+	getRowData() {
+		return {
+			id: this.componentId,
+			sku: this.sku,
+			name: this.name,
+			quantity: this.quantity,
+			buyPrice: this.buyPrice,
+			iva: this.iva,
+			impInt: this.impInt,
+			profit: this.profit
+		}
+	}
+
+	// getRowDataForPDF() {
+	// 	return {
+	// 		"SKU" : this.sku,
+    //         "Nombre" : this.name,
+    //         "Precio USD" : this.fPrice,
+    //         "Precio AR$" : this.fPriceAr,
+    //         "IVA" : this.iva,
+    //         "Cant." : this.quantity,
+    //         "Importe USD" : this.fTotalPrice,
+    //         "Importe AR$" : this.fTotalPriceAr
+	// 	}
+	// }
 
 }
