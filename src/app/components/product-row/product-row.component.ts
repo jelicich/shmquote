@@ -11,7 +11,7 @@ export class ProductRowComponent implements OnInit {
 	@Input() props;
 	@Input() usd;
 	@Output() remove = new EventEmitter<number>(); 
-	@Output() update = new EventEmitter<any>(); 
+	@Output() update = new EventEmitter<any>();
 	
 	componentId: number;
 

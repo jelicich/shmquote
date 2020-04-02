@@ -1,6 +1,15 @@
 <div class="Header" fxLayout="row" fxLayoutAlign="space-between">  
-    <div>
-        <img src="https://www.shmit.com.ar/assets/logos/shm-logo-256-white.png" alt="">
+    <div fxLayout="row">
+        <div class="u-marginRl">
+            <img src="https://www.shmit.com.ar/assets/logos/shm-logo-256-white.png" alt="">
+        </div>
+        <nav>
+            <button mat-flat-button (click)="add.emit('')" title="Agregar producto"><i class="material-icons">add_circle</i> Agregar</button>
+            <button mat-flat-button (click)="copy.emit('')" title="Copiar todo"><i class="material-icons">file_copy</i> Copiar</button>
+            <button mat-flat-button (click)="export.emit('')" title="Exportar a PDF"><i class="material-icons">picture_as_pdf</i> Exportar</button>
+            <button mat-flat-button (click)="save.emit('')" title="Guardar cotización"><i class="material-icons">save</i> Guardar</button>
+            <button mat-flat-button (click)="open.emit('')" title="Abrir cotización"><i class="material-icons">folder_open</i> Abrir</button>
+        </nav>
     </div>
     <div>
         <mat-chip-list>

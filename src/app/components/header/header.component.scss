@@ -14,6 +14,21 @@
     background: #fff;
 }
 
+nav {
+    display: inline-block;
+
+    button {
+        margin-right: 5px;
+        font-size: 12px;
+        line-height: 32px;
+        padding: 0 12px;
+        
+        i {
+            font-size: 18px;
+        }
+    }
+}
+
 img {
     width: 80px;
 }

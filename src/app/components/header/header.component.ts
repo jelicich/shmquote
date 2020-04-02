@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
     selector: 'HeaderComponent',
@@ -7,6 +7,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
     @Input() dolar;
+	@Output() add = new EventEmitter();
+    @Output() copy = new EventEmitter();
+    @Output() export = new EventEmitter();
+	@Output() save = new EventEmitter();
+	@Output() open = new EventEmitter();
+    
     constructor() { }
 
     ngOnInit(): void {   
