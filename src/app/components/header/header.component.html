@@ -2,5 +2,12 @@
     <div>
         <img src="https://www.shmit.com.ar/assets/logos/shm-logo-256-white.png" alt="">
     </div>
-    <div>Dolar: {{dolar}}</div>
+    <div>
+        <mat-chip-list>
+            <mat-chip>
+                Dolar:&nbsp;<b>{{dolar}}</b>
+                <mat-spinner *ngIf="!dolar" [diameter]="20"></mat-spinner>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
 </div>

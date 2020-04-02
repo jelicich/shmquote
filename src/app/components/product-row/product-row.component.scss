@@ -1,74 +1,105 @@
-label {
-    font-size: 12px;
-    color: #666;
-    padding: 5px;
+.ProductRow {
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+    padding: 10px 0;
 }
 
-.Input {
-    margin: 5px 0;
-    background: #fff;
-    padding: 5px;
-    border-radius: 5px;
-    display: block;
-    border: 2px solid #ddd;
+.ProductRow-user-input {
+    flex: 6;
 
-    &[type="text"], 
-    &[type="number"] {
-        height: 17px;
+    & > div {
+        margin-right: 10px;
     }
+}
+
+.ProductRow-totals {
+    flex: 5;
+
+    & > div {
+        flex: 3;
+    }
+
+    & > div:last-child {
+        flex: 1.7;
+    }
+}
+
+.ProductRow-actions {
+    flex: 0.5;
+    align-items: center;
+    justify-content: space-around;
+
+    button {
+        
+    }
+}
+
+.Input-sku {
+    flex: 1.5;
+}
+
+.Input-name {
+    flex: 4;
+}
+
+.Input-small {
+    flex: 1;
+}
+
+.Input-tax {
+    flex: 1.3;
+}
+
+.Input-price {
+    flex: 2;
 }
 
 .Input-number {
     text-align: right;
 }
 
-.Input-sku {
-    width: 80px;
+.Price-label {
+    color: rgba(0,0,0,.54);
+    font-size: 14px;
+    transform: scale(0.75) translateZ(0.001px) perspective(100px);
+    display: inline-block;
 }
 
-.Input-name {
-    width: 188px;
-}
+.Price-wrapper {
+    margin-top: -5px;
 
-.Input-small {
-    width: 50px;
-}
+    mat-chip {
+        justify-content: flex-end;
 
-.Input-price {
-    width: 70px;
-}
-
-select {
-    min-width: 75px;
-    text-align: right;
+        span {
+            font-size: 10px;
+            padding-top: 5px;
+        }
+    }
 }
 
 .Price {
     margin-right: 10px;
+    width: 100%;
+}
 
-    .label {
-        font-size: 12px;
-        color: #666;
-        padding: 5px 0 5px;
-        display: block
+.Profit {
+    margin-right: 10px;
+    width: 100%;
+
+    &.low {
+        background-color: #f44336;
+        color: #fff;
+        span {
+            color: rgba(255,255,255,0.8);
+        }
     }
 
-    .currency {
-        color: #666;
-        font-weight: normal;
-        font-size: 12px;
-    }
-
-    p{
-        text-align: right;
-        padding: 7px 10px;
-        font-weight: bold;
-        background: #ddd;
-        border-radius: 5px;
-        margin: 0; 
-        height: 30px;
-        box-sizing: border-box;
-        width: 130px;
-        font-size: 14px;
+    &.med {
+        background-color: #f09f34;
+        // color: #fff;
+        span {
+            color: rgba(0,0,0,0.7);
+        }
     }
 }

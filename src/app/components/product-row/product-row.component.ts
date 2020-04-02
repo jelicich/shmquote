@@ -33,8 +33,16 @@ export class ProductRowComponent implements OnInit {
 	fPriceAr: string;
 	fTotalPrice: string;
 	fTotalPriceAr: string;
+	
+	finalProfitPercent: number;
+	profitStatusClass = '';
 
 	tableRow: string;
+
+	status = {
+		LOW: 5,
+		MED: 10
+	}
 
 	constructor() { }
 
@@ -55,7 +63,17 @@ export class ProductRowComponent implements OnInit {
 
 	calculatePrice() {
 		if(!this.buyPrice || !this.quantity || !this.profit) {
-			return;
+			this.resetTotals();
+			
+			setTimeout(()=>{
+				this.update.emit({
+					id: this.componentId,
+					totalPrice: this.totalPrice,
+					totalPriceAr: this.totalPriceAr
+				})
+			},0)
+			
+			return false;
 		} else {
 			this.price = this.buyPrice;
 
@@ -83,6 +101,20 @@ export class ProductRowComponent implements OnInit {
 			this.fTotalPrice = nfObject.format(this.totalPrice);
 			this.fTotalPriceAr = nfObject.format(this.totalPriceAr); 
 
+			//calculate profit
+			const pvp = this.price + ivaDebito;
+			const ganancias = (this.price - costoTotal) * tax.GANANCIAS / 100;
+			const difIva = ivaDebito - ivaCredito;
+			const finalProfit = pvp - (costoTotalIva + impDebCred) - ganancias - difIva;
+			this.finalProfitPercent = parseFloat((finalProfit / costoTotal * 100).toFixed(2));
+			if(this.finalProfitPercent <= this.status.LOW) {
+				this.profitStatusClass = 'low';
+			} else if(this.finalProfitPercent > this.status.LOW && this.finalProfitPercent <= this.status.MED) {
+				this.profitStatusClass = 'med';
+			} else {
+				this.profitStatusClass = 'success'
+			}
+			 
 			this.tableRow = this.generateTableRow();
 
 			this.update.emit({
@@ -93,6 +125,19 @@ export class ProductRowComponent implements OnInit {
 		}
 	}
 
+	resetTotals() {
+		this.fPrice = '';
+		this.fPriceAr = '';
+		this.fTotalPrice = '';
+		this.fTotalPriceAr = '';
+		this.price = 0;
+		this.priceAr = 0;
+		this.totalPrice = 0;
+		this.totalPriceAr = 0;
+		this.finalProfitPercent = 0;
+		this.profitStatusClass = '';
+	}
+
 	deleteRow(){
 		this.remove.emit(this.componentId);
 	}
@@ -100,17 +145,21 @@ export class ProductRowComponent implements OnInit {
 	generateTable(){
 		const table = `
 			<table style="border-collapse: collapse; width: 1200px;" >
-				<tr>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">SKU</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Nombre</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio USD</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio AR$</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">IVA</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Cant.</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe USD</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe AR$</td>
-				</tr>
-				${this.generateTableRow()}
+				<thead>
+					<tr>
+						<th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">SKU</th>
+						<th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Nombre</th>
+						<th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio USD</th>
+						<th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio AR$</th>
+						<th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">IVA</th>
+						<th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Cant.</th>
+						<th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe USD</th>
+						<th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe AR$</th>
+					</tr>
+				</thead>
+				<tbody>
+					${this.generateTableRow()}
+				</tbody>
 			</table>
 		`;
 		// console.log(table);

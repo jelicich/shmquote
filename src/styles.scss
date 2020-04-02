@@ -1,7 +1,10 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 html, body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    height: 100%;
 }
 
 .Button {
@@ -17,12 +20,14 @@ html, body {
 }
 
 .Button-icon {
-    padding: 3px;
+    padding: 0 !important;
+    min-width: 25px !important;
+    line-height: 25px !important;
+    border-radius: 50% !important;
 
     i {
-        font-size: 16px;
+        font-size: 15px;
     }
-    
 }
 
 .Button-danger {
@@ -50,6 +55,36 @@ html, body {
     margin-right: 10px;
 }
 
+.u-alignRight {
+    text-align: right;
+}
+
 .Text-muted {
     color: #666;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+.mat-form-field-fluid {
+    width: 100% !important;
+    min-width: 10px !important; 
+
+    .mat-form-field-wrapper {
+        width: 100% !important;
+        min-width: 10px !important;
+
+        .mat-form-field-flex,
+        .mat-form-field-underline,
+        .mat-form-field-subscript-wrapper {
+            width: 100% !important;
+            min-width: 10px !important;
+        }
+    }
+
+    .mat-form-field-infix {
+        width: 100% !important;
+        min-width: 10px !important;
+    }
 }

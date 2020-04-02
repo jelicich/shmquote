@@ -1,18 +1,25 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, ViewChild, QueryList, AfterViewInit } from '@angular/core';
 import { BnaService } from './services/bna.service';
 import { ProductRowComponent } from './components/product-row/product-row.component';
+import { FileManagerComponent } from './components/file-manager/file-manager.component';
+import { PdfExporterComponent } from './components/pdf-exporter/pdf-exporter.component';
+import { FileService } from './services/file.service';
+
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+
+export class AppComponent implements AfterViewInit{
     
     @ViewChildren(ProductRowComponent) productRows: QueryList<ProductRowComponent>;
+    @ViewChild(FileManagerComponent) fileManager: FileManagerComponent;
+    @ViewChild(PdfExporterComponent) pdfExporter: PdfExporterComponent;
     
     title = 'shmquote';
-    rows = [{
+    rows = [{   
         id: this.generateId(),
     }];
 
@@ -24,10 +31,14 @@ export class AppComponent implements OnInit{
     usd: number;
 
     constructor(
-        private bnaService: BnaService
+        private bnaService: BnaService,
+        private fileService: FileService
     ){}
 
-    ngOnInit() {
+    // ngOnInit() { 
+    // }
+
+    ngAfterViewInit(){
         this.setUsd();
     }
     
@@ -37,6 +48,8 @@ export class AppComponent implements OnInit{
 
     deleteRow(id) {
         this.rows = this.rows.filter(row => row.id !== id);
+        this.totals = this.totals.filter(row => row.id !== id);
+        this.updateTotals(false);
     }
 
     copyToClipboard() {
@@ -67,22 +80,28 @@ export class AppComponent implements OnInit{
 
         const table = `
 			<table style="border-collapse: collapse; width: 1200px;" >
-				<tr>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">SKU</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Nombre</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio USD</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio AR$</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">IVA</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Cant.</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe USD</td>
-					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe AR$</td>
-				</tr>
-                ${rows}
-                <tr>
-                    <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" colspan="6">Total: </td>
-                    <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fTotal}</td>
-                    <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fTotalAr}</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">SKU</th>
+                        <th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Nombre</th>
+                        <th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio USD</th>
+                        <th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Precio AR$</th>
+                        <th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">IVA</th>
+                        <th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Cant.</th>
+                        <th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe USD</th>
+                        <th style="padding: 10px; border: 1px solid black; border-collapse: collapse;">Importe AR$</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rows}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" colspan="6">Total: </td>
+                        <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fTotal}</td>
+                        <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fTotalAr}</td>
+                    </tr>
+                </tfoot>
 			</table>
 		`;
 		// console.log(table);
@@ -90,10 +109,15 @@ export class AppComponent implements OnInit{
     }
 
     updateTotals(newTotals) {
-        this.totals = this.totals.filter(row => row.id !== newTotals.id)
-        this.totals.push(newTotals);
+        if(newTotals) {
+            this.totals = this.totals.filter(row => row.id !== newTotals.id)
+            this.totals.push(newTotals);
+        }
         
-        this.calculateTotals();
+        const calc = this.calculateTotals();
+
+        this.fTotal = calc.fTotal;
+        this.fTotalAr = calc.fTotalAr;
     }
 
     generateId(){
@@ -114,8 +138,11 @@ export class AppComponent implements OnInit{
             totalAr += row.totalPriceAr;
         })
         const nfObject = new Intl.NumberFormat('en-US',{minimumFractionDigits: 2}); 
-        this.fTotal = nfObject.format(total);
-        this.fTotalAr = nfObject.format(totalAr);
+        
+        return {
+            fTotal : nfObject.format(total),
+            fTotalAr: nfObject.format(totalAr)
+        }
     }
 
     setUsd() {
@@ -127,4 +154,33 @@ export class AppComponent implements OnInit{
             })
         })
     }
+
+    saveQuote() {
+        let userInput = prompt('Ingrese un nombre para la cotización');
+        let rowsData = [];
+        this.productRows.forEach((row) => {
+            rowsData.push(row.getRowData());
+        });
+
+        const file = {
+            filename: userInput,
+            data: JSON.stringify(rowsData)
+        }
+
+        this.fileService.saveFile(file).then((response: any) => {
+            alert(response.message);
+        })
+    }
+
+    fileLoaded(file) {
+        this.rows = file.rows;
+    }
+
+    exportToPdf() {
+        const table = this.generateTable()
+        this.pdfExporter.open(table, this.usd);
+    }
+
+
+
 }

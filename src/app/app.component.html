@@ -5,7 +5,10 @@
     <div fxLayout="row" fxLayoutAlign="space-between">
         <div>
             <button (click)="addRow()" class="Button Button-icon-text Button-success u-marginRm" title="Agregar producto"><i class="material-icons">add_circle</i><span> Agregar</span></button>
-            <button (click)="copyToClipboard()" class="Button Button-icon-text" title="Copiar todo"><i class="material-icons">file_copy</i><span> Copiar</span></button>
+            <button (click)="copyToClipboard()" class="Button Button-icon-text u-marginRm" title="Copiar todo"><i class="material-icons">file_copy</i><span> Copiar</span></button>
+            <button (click)="exportToPdf()" class="Button Button-icon-text u-marginRm" title="Exportar a PDF"><i class="material-icons">picture_as_pdf</i><span> Exportar</span></button>
+            <button (click)="saveQuote()" class="Button Button-icon-text u-marginRm" title="Guardar Cotizacion"><i class="material-icons">save</i><span> Guardar</span></button>
+            <button (click)="fileManager.open()" class="Button Button-icon-text" title="Abrir Cotizacion"><i class="material-icons">folder_open</i><span> Abrir</span></button>
         </div>
         <div class="Total">
             <p class="Total-title">Total</p>
@@ -22,8 +25,8 @@
         
         
     </div>
-    
-    
 </div>
 
+<FileManagerComponent (fileLoaded)="fileLoaded($event)"></FileManagerComponent>
+<PdfExporterComponent></PdfExporterComponent>
 <router-outlet></router-outlet>

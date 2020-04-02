@@ -1,70 +1,195 @@
 <div fxLayout="row" class="ProductRow">
-    <label>
-        SKU
-        <input class="Input Input-sku" type="text" placeholder="SKU" [(ngModel)]="sku">
-    </label>
-
-    <label>
-        Nombre Producto
-        <input class="Input Input-name" type="text" placeholder="Nombre producto" [(ngModel)]="name">
-    </label>
     
-    <label>
-        Cantidad
-        <input class="Input Input-small Input-number" type="number" [(ngModel)]="quantity" (ngModelChange)="calculatePrice()">
-    </label>
 
-    <label>
-        Precio Compra
-        <input class="Input Input-price Input-number" type="number" step=".01" [(ngModel)]="buyPrice" (ngModelChange)="calculatePrice()">
-    </label>
-
-    <label>
-        Margen
-        <input class="Input Input-small Input-number" type="number" step=".01" [(ngModel)]="profit" (ngModelChange)="calculatePrice()">
-    </label>
+    <div fxLayout="row" class="ProductRow-user-input">
+        <div class="Input-sku">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-label>SKU</mat-label>
+                <input matInput placeholder="Ej. GR5XFL8" [(ngModel)]="sku">
+            </mat-form-field>
+            <!-- <label>
+                SKU
+                <input class="Input Input-sku" type="text" placeholder="SKU" [(ngModel)]="sku">
+            </label> -->
+        </div>
+        
+        <div class="Input-name">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="Ej. OptiPlex 7460 AIO i7-8700" [(ngModel)]="name">
+            </mat-form-field>
+            <!-- <label>
+                Nombre Producto
+                <input class="Input Input-name" type="text" placeholder="Nombre producto" [(ngModel)]="name">
+            </label> -->
+        </div>
+        
+        <div class="Input-small">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-label>Cant.</mat-label>
+                <input matInput type="number" placeholder="Ej. 2" [(ngModel)]="quantity" class="Input-number" (ngModelChange)="calculatePrice()">
+            </mat-form-field>
+            <!-- <label>
+                Cantidad
+                <input class="Input Input-small Input-number" type="number" [(ngModel)]="quantity" (ngModelChange)="calculatePrice()">
+            </label> -->
+        </div>
     
-    <label>
-        IVA
-        <select class="Input Input-small Input-number" name="iva" [(ngModel)]="iva" (ngModelChange)="calculatePrice()">
-            <option value="10.5">10.5%</option>
-            <option value="21">21%</option>
-        </select>
-    </label>
+       <div class="Input-price">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-label>Costo</mat-label>
+                <input matInput class="Input-number" placeholder="Ej. 1560.50" type="number" step=".01" [(ngModel)]="buyPrice" (ngModelChange)="calculatePrice()">
+            </mat-form-field>
+            <!-- <label>
+                Precio Compra
+                <input class="Input Input-price Input-number" type="number" step=".01" [(ngModel)]="buyPrice" (ngModelChange)="calculatePrice()">
+            </label> -->
+       </div>
+    
+       <div class="Input-small">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-label>Margen</mat-label>
+                <input matInput class="Input-number" placeholder="Ej. 15" type="number" step=".10" [(ngModel)]="profit" (ngModelChange)="calculatePrice()">
+            </mat-form-field>
+            <!-- <label>
+                Margen
+                <input class="Input Input-small Input-number" type="number" step=".01" [(ngModel)]="profit" (ngModelChange)="calculatePrice()">
+            </label> -->
+       </div>
+        
+       
+       <div class="Input-tax">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-label>IVA</mat-label>
+                <mat-select class="Input-number" [(ngModel)]="iva" (ngModelChange)="calculatePrice()">
+                    <mat-option value="10.5">
+                        10.5%
+                    </mat-option>
+                    <mat-option value="21">
+                        21%
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <label>
+                IVA
+                <select class="Input Input-small Input-number" name="iva" [(ngModel)]="iva" (ngModelChange)="calculatePrice()">
+                    <option value="10.5">10.5%</option>
+                    <option value="21">21%</option>
+                </select>
+            </label> -->
+       </div>
+        
+        
+        <div class="Input-tax">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-label>Imp. Int.</mat-label>
+                <mat-select class="Input-number" [(ngModel)]="impInt" (ngModelChange)="calculatePrice()">
+                    <mat-option value="0">
+                        0%
+                    </mat-option>
+                    <mat-option value="7.8">
+                        7.8%
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <label>
+                Imp. Int.
+                <select class="Input Input-small Input-number" name="impInt" [(ngModel)]="impInt" (ngModelChange)="calculatePrice()">
+                    <option value="0">0%</option>
+                    <option value="7.8">7.8%</option>
+                </select>
+            </label> -->
+        </div>
+    
+        
+    </div>
+    
+    <div fxLayout="row" class="ProductRow-totals">
+        <div>
+            <div class="Price-wrapper">
+                <span class="Price-label">Precio USD</span>
+                <mat-chip-list>
+                    <mat-chip class="Price">
+                        <span class="Text-muted ">USD</span>&nbsp;<b>{{fPrice}}</b>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>  
+        </div>
+        <!-- <div class="Price">
+            <span class="label">Precio USD:</span>
+            <p><span class="currency">USD</span> {{fPrice}}</p>
+        </div> -->
+    
+        <div>
+            <div class="Price-wrapper">
+                <span class="Price-label">Precio AR$</span>
+                <mat-chip-list>
+                    <mat-chip class="Price">
+                        <span class="Text-muted ">AR$</span>&nbsp;<b>{{fPriceAr}}</b>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>  
+        </div>
+        <!-- <div class="Price">
+            <span class="label">Precio AR:</span>
+            <p><span class="currency">AR$</span> {{fPriceAr}}</p>
+        </div> -->
+    
+        <div>
+            <div class="Price-wrapper">
+                <span class="Price-label">Importe USD</span>
+                <mat-chip-list>
+                    <mat-chip class="Price">
+                        <span class="Text-muted ">USD</span>&nbsp;<b>{{fTotalPrice}}</b>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>  
+        </div>
+        <!-- <div class="Price">
+            <span class="label">Importe USD:</span>
+            <p><span class="currency">USD</span> {{fTotalPrice}}</p>
+        </div> -->
+    
+        <div>
+            <div class="Price-wrapper">
+                <span class="Price-label">Importe AR$</span>
+                <mat-chip-list>
+                    <mat-chip class="Price">
+                        <span class="Text-muted ">AR$</span>&nbsp;<b>{{fTotalPriceAr}}</b>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>  
+        </div>
+        <!-- <div class="Price">
+            <span class="label">Importe AR:</span>
+            <p><span class="currency">AR$</span> {{fTotalPriceAr}}</p>
+        </div> -->
 
-    <label>
-        Imp. Int.
-        <select class="Input Input-small Input-number" name="impInt" [(ngModel)]="impInt" (ngModelChange)="calculatePrice()">
-            <option value="0">0%</option>
-            <option value="7.8">7.8%</option>
-        </select>
-    </label>
-
-    <div class="Price">
-        <span class="label">Precio USD:</span>
-        <p><span class="currency">USD</span> {{fPrice}}</p>
-    </div>
-    <div class="Price">
-        <span class="label">Precio AR:</span>
-        <p><span class="currency">AR$</span> {{fPriceAr}}</p>
+        <div>
+            <div class="Price-wrapper">
+                <span class="Price-label">%Ut.</span>
+                <mat-chip-list>
+                    <mat-chip class="Profit" [ngClass]="profitStatusClass">
+                        <b>{{finalProfitPercent}}</b><span class="Text-muted ">%</span>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>  
+        </div>
     </div>
 
-    <div class="Price">
-        <span class="label">Importe USD:</span>
-        <p><span class="currency">USD</span> {{fTotalPrice}}</p>
-    </div>
-    <div class="Price">
-        <span class="label">Importe AR:</span>
-        <p><span class="currency">AR$</span> {{fTotalPriceAr}}</p>
-    </div>
+    
+
+    
+    
+
     <!-- <div class="Price">
         <span class="label">PVP:</span>
         <p><span class="currency">USD</span> {{finalPrice}}</p>
     </div> -->
     
-    <div>
-        <button (click)="copyToClipboard()" title="Copiar" class="Button Button-icon"><i class="material-icons">file_copy</i></button>
-        <button (click)="deleteRow()" title="Eliminar" class="Button Button-icon Button-danger"><i class="material-icons">remove_circle</i></button>
+    <div fxLayout="row" class="ProductRow-actions"> 
+        <button mat-flat-button color="primary" (click)="copyToClipboard()" title="Copiar" class="Button-icon"><i class="material-icons">file_copy</i></button>
+        <button mat-flat-button color="warn" (click)="deleteRow()" title="Eliminar" class="Button-icon"><i class="material-icons">remove_circle</i></button>
     </div>  
     
     
