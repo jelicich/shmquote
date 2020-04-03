@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {tax} from '../../config/quote';
 
 @Component({
@@ -36,6 +37,9 @@ export class ProductRowComponent implements OnInit {
 	
 	finalProfitPercent: number;
 	profitStatusClass = '';
+	rowStatusClass = '';
+
+	statusTimeOut;
 
 	tableRow: string;
 
@@ -44,34 +48,37 @@ export class ProductRowComponent implements OnInit {
 		MED: 10
 	}
 
-	constructor() { }
+	constructor(private snackBar: MatSnackBar) { }
 
 	ngOnInit(): void {
 		this.componentId = this.props.id;
 		
+		setTimeout(()=>{
+			this.sku = this.props.sku || '';
+			this.name = this.props.name || '';
+			this.buyPrice = parseFloat(this.props.buyPrice) || null;
+			this.quantity = parseInt(this.props.quantity) || null;
+			this.profit = parseFloat(this.props.profit) || null;
+			this.iva = this.props.iva || '10.5';
+			this.impInt = this.props.impInt || '0';
+			
+			this.calculatePrice();
+		},0)
 		//populate if provided
-		this.sku = this.props.sku || '';
-		this.name = this.props.name || '';
-		this.buyPrice = parseFloat(this.props.buyPrice) || null;
-		this.quantity = parseInt(this.props.quantity) || null;
-		this.profit = parseFloat(this.props.profit) || null;
-		this.iva = this.props.iva || '10.5';
-		this.impInt = this.props.impInt || '0';
 		
-		this.calculatePrice();
 	}
 
 	calculatePrice() {
 		if(!this.buyPrice || !this.quantity || !this.profit) {
 			this.resetTotals();
 			
-			setTimeout(()=>{
+			// setTimeout(()=>{
 				this.update.emit({
 					id: this.componentId,
 					totalPrice: this.totalPrice,
 					totalPriceAr: this.totalPriceAr
 				})
-			},0)
+			// },0)
 			
 			return false;
 		} else {
@@ -160,6 +167,13 @@ export class ProductRowComponent implements OnInit {
 				<tbody>
 					${this.generateTableRow()}
 				</tbody>
+				<tfoot>
+					<tr>
+						<td style="padding: 10px; border: 1px solid black; border-collapse: collapse" colspan="8">
+							Los precios no incluyen IVA. Tipo de cambio BNA $${this.usd}.
+						</td>
+					</tr>
+				</tfoot>
 			</table>
 		`;
 		// console.log(table);
@@ -167,18 +181,26 @@ export class ProductRowComponent implements OnInit {
 	}
 
 	generateTableRow() {
-		const tr = `
-			<tr>
-				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.sku}</td>
-				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse; width: 300px;">${this.name}</td>
-				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fPrice}</td>
-				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fPriceAr}</td>
-				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.iva}</td>
-				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.quantity}</td>
-				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fTotalPrice}</td>
-				<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fTotalPriceAr}</td>
-			</tr>
-		`;
+		let tr;
+		if(this.isEmptyField()) {
+			tr = '';
+			//highlight row
+			this.highlightWhenEmpty();
+		} else {
+			tr = `
+				<tr>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">${this.sku}</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse; width: 300px;">${this.name}</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" align="right">USD ${this.fPrice}</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" align="right">AR$ ${this.fPriceAr}</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" align="right">${this.iva}</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" align="right">${this.quantity}</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" align="right">USD ${this.fTotalPrice}</td>
+					<td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" align="right">AR$ ${this.fTotalPriceAr}</td>
+				</tr>
+			`;
+		}
+		
 		return tr;
 	}
 
@@ -196,9 +218,12 @@ export class ProductRowComponent implements OnInit {
 		range.selectNode(el)
 		window.getSelection().addRange(range)
 
-		document.execCommand('copy')
+		const r = document.execCommand('copy')
 		
 		document.body.removeChild(el);
+
+		const message = r ? 'Copiado!' : 'No se pudo copiar';
+		this.snackBar.open(message, 'OK', {duration: 3000});
 	}
 
 	getTotals() {
@@ -223,17 +248,38 @@ export class ProductRowComponent implements OnInit {
 		}
 	}
 
-	// getRowDataForPDF() {
-	// 	return {
-	// 		"SKU" : this.sku,
-    //         "Nombre" : this.name,
-    //         "Precio USD" : this.fPrice,
-    //         "Precio AR$" : this.fPriceAr,
-    //         "IVA" : this.iva,
-    //         "Cant." : this.quantity,
-    //         "Importe USD" : this.fTotalPrice,
-    //         "Importe AR$" : this.fTotalPriceAr
-	// 	}
-	// }
+	isEmptyField() {
+		if( (this.sku.length == 0 || this.name.length == 0) || 
+		!this.buyPrice || !this.quantity || !this.profit) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
+	validateInteger(e) {
+		if(e.target.value.length > 0) {
+			const n = e.target.value + '';
+			e.target.value = parseInt(n.replace(/\D/, ''));
+		} else {
+			e.target.value = '';
+		}
+	}
+
+	validateFloat(e) {
+		if(e.target.value.length > 0) {
+			const n = e.target.value + '';
+			e.target.value = parseFloat(n.replace(/[^0-9.]/g, ""));
+		} else {
+			e.target.value = '';
+		}
+	}
+
+	highlightWhenEmpty() {
+		this.rowStatusClass = 'ProductRow--missingInfo';
+	}
+
+	cleanClass() {
+		this.rowStatusClass = '';
+	}
 }

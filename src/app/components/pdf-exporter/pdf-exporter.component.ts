@@ -49,6 +49,11 @@ export class PdfExporterComponent implements OnInit {
         let tableY;
         
         if(this.includeText) {
+            if(!this.greeting || this.greeting.length < 3 || !this.mainContent || this.mainContent.length < 3) {
+                alert('El saludo y cuerpo del mensaje deben ser de al menos 3 caracteres.');
+                return false;
+            }
+
             const greeting = this.greeting;
             const mainContent = this.mainContent;
 
@@ -97,6 +102,10 @@ export class PdfExporterComponent implements OnInit {
         const el = document.createElement('div');
         el.innerHTML = table;
 
+        //remove disclaimer
+        const lastTr = el.querySelector('table tfoot tr:last-child');
+        lastTr.parentNode.removeChild(lastTr); 
+        
         doc.autoTable({
            // head: headRows(),
            // body: bodyRows(40),

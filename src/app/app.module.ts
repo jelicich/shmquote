@@ -10,6 +10,9 @@ import { AppComponent } from './app.component';
 import { ProductRowComponent } from './components/product-row/product-row.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 import { BnaService } from './services/bna.service';
 import { FileService } from './services/file.service';
@@ -40,7 +43,9 @@ import { MatButtonModule } from '@angular/material/button';
         MatProgressSpinnerModule,
         MatInputModule,
         MatSelectModule,
-        MatButtonModule
+        MatButtonModule,
+        MatSnackBarModule,
+        MatCheckboxModule
     ],
     providers: [BnaService, FileService],
     bootstrap: [AppComponent]

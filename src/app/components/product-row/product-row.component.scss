@@ -2,6 +2,12 @@
     margin-bottom: 10px;
     border-bottom: 1px dashed #ddd;
     padding: 10px 0;
+    transition: background-color .5s ease, box-shadow .5s ease;
+}
+
+.ProductRow--missingInfo {
+    background-color: rgba(240, 169, 36, 0.5);
+    box-shadow: 0 0 0 5px rgba(240, 169, 36, 0.5);
 }
 
 .ProductRow-user-input {

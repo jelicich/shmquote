@@ -3,6 +3,7 @@ import { BnaService } from './services/bna.service';
 import { ProductRowComponent } from './components/product-row/product-row.component';
 import { FileManagerComponent } from './components/file-manager/file-manager.component';
 import { PdfExporterComponent } from './components/pdf-exporter/pdf-exporter.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileService } from './services/file.service';
 
 
@@ -32,7 +33,8 @@ export class AppComponent implements AfterViewInit{
 
     constructor(
         private bnaService: BnaService,
-        private fileService: FileService
+        private fileService: FileService,
+        private snackBar: MatSnackBar
     ){}
 
     // ngOnInit() { 
@@ -67,9 +69,12 @@ export class AppComponent implements AfterViewInit{
 		range.selectNode(el)
 		window.getSelection().addRange(range)
 
-		document.execCommand('copy')
+		const r = document.execCommand('copy')
 		
-		document.body.removeChild(el);
+        document.body.removeChild(el);
+        
+        const message = r ? 'Copiado!' : 'No se pudo copiar';
+		this.snackBar.open(message, 'OK', {duration: 3000});
     }
 
     generateTable() {
@@ -98,9 +103,14 @@ export class AppComponent implements AfterViewInit{
                 <tfoot>
                     <tr>
                         <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" colspan="6">Total: </td>
-                        <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">USD ${this.fTotal}</td>
-                        <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;">AR$ ${this.fTotalAr}</td>
+                        <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" align="right">USD ${this.fTotal}</td>
+                        <td style="padding: 10px; border: 1px solid black; border-collapse: collapse;" align="right">AR$ ${this.fTotalAr}</td>
                     </tr>
+                    <tr>
+						<td style="padding: 10px; border: 1px solid black; border-collapse: collapse" colspan="8">
+							Los precios no incluyen IVA. Tipo de cambio BNA $${this.usd}.
+						</td>
+					</tr>
                 </tfoot>
 			</table>
 		`;
@@ -157,19 +167,23 @@ export class AppComponent implements AfterViewInit{
 
     saveQuote() {
         let userInput = prompt('Ingrese un nombre para la cotización');
-        let rowsData = [];
-        this.productRows.forEach((row) => {
-            rowsData.push(row.getRowData());
-        });
+        if(userInput === null) {
+            return false;
+        } else {
+            let rowsData = [];
+            this.productRows.forEach((row) => {
+                rowsData.push(row.getRowData());
+            });
 
-        const file = {
-            filename: userInput,
-            data: JSON.stringify(rowsData)
+            const file = {
+                filename: userInput,
+                data: JSON.stringify(rowsData)
+            }
+
+            this.fileService.saveFile(file).then((response: any) => {
+                alert(response.message);
+            })
         }
-
-        this.fileService.saveFile(file).then((response: any) => {
-            alert(response.message);
-        })
     }
 
     fileLoaded(file) {

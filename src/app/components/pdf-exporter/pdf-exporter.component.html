@@ -3,24 +3,33 @@
         <h1>Exportar PDF</h1>
 
         <div class="PdfExporter-fields" fxLayout="column">
-            <label>
-                <input type="checkbox" [(ngModel)]="includeText" />
-                Incluir texto
-            </label>
-            <div fxLayout="column" class="PdfExporter-textInputs">
+            <mat-checkbox [(ngModel)]="includeText">Incluir texto</mat-checkbox>
+            
+            <div class="u-marginTl">
+                <mat-form-field>
+                    <mat-label>Saludo</mat-label>
+                    <input matInput placeholder="Ej. Estimado Cliente," [(ngModel)]="greeting" [disabled]="!includeText">
+                </mat-form-field>
+
+                <mat-form-field class="PdfExporter-textarea">
+                    <mat-label>Cuerpo del mensaje</mat-label>
+                    <textarea matInput rows="7" [(ngModel)]="mainContent" placeholder="A continuación detallamos los productos solicitados..." [disabled]="!includeText"></textarea>
+                </mat-form-field>
+            </div>
+            
+
+            <!-- <div fxLayout="column" class="PdfExporter-textInputs">
                 <input type="text" [(ngModel)]="greeting" placeholder="Estimados 'Empresa'," [disabled]="!includeText">
                 <textarea [(ngModel)]="mainContent" placeholder="A continuación detallamos los productos solicitados..." [disabled]="!includeText"></textarea>
-            </div>
+            </div> -->
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between">
-            <button class="Button Button-icon-text" (click)="exportPdf()">
-                Ok
+            <button mat-flat-button color="primary" (click)="exportPdf()">
+                OK
             </button>
-            <button class="Button Button-danger Button-icon-text" (click)="close()">
+            <button mat-flat-button color="warn" (click)="close()">
                 Cancelar
             </button>
         </div>
-
-        
     </div>
 </div>

@@ -1,4 +1,4 @@
-<div fxLayout="row" class="ProductRow">
+<div fxLayout="row" class="ProductRow" [ngClass]="rowStatusClass" (click)="cleanClass()">
     
 
     <div fxLayout="row" class="ProductRow-user-input">
@@ -27,7 +27,7 @@
         <div class="Input-small">
             <mat-form-field class="mat-form-field-fluid">
                 <mat-label>Cant.</mat-label>
-                <input matInput type="number" placeholder="Ej. 2" [(ngModel)]="quantity" class="Input-number" (ngModelChange)="calculatePrice()">
+                <input matInput type="number" placeholder="Ej. 2" [(ngModel)]="quantity" class="Input-number" (ngModelChange)="calculatePrice()" (blur)="validateInteger($event)">
             </mat-form-field>
             <!-- <label>
                 Cantidad
@@ -38,7 +38,7 @@
        <div class="Input-price">
             <mat-form-field class="mat-form-field-fluid">
                 <mat-label>Costo</mat-label>
-                <input matInput class="Input-number" placeholder="Ej. 1560.50" type="number" step=".01" [(ngModel)]="buyPrice" (ngModelChange)="calculatePrice()">
+                <input matInput class="Input-number" placeholder="Ej. 1560.50" type="number" step=".01" [(ngModel)]="buyPrice" (ngModelChange)="calculatePrice()" (blur)="validateFloat($event)">
             </mat-form-field>
             <!-- <label>
                 Precio Compra
@@ -49,7 +49,7 @@
        <div class="Input-small">
             <mat-form-field class="mat-form-field-fluid">
                 <mat-label>Margen</mat-label>
-                <input matInput class="Input-number" placeholder="Ej. 15" type="number" step=".10" [(ngModel)]="profit" (ngModelChange)="calculatePrice()">
+                <input matInput class="Input-number" placeholder="Ej. 15" type="number" step=".10" [(ngModel)]="profit" (ngModelChange)="calculatePrice()" (blur)="validateFloat($event)">
             </mat-form-field>
             <!-- <label>
                 Margen
@@ -110,7 +110,7 @@
                 <span class="Price-label">Precio USD</span>
                 <mat-chip-list>
                     <mat-chip class="Price">
-                        <span class="Text-muted ">USD</span>&nbsp;<b>{{fPrice}}</b>
+                        <span class="Text-muted">USD</span>&nbsp;<b>{{fPrice}}</b>
                     </mat-chip>
                 </mat-chip-list>
             </div>  
