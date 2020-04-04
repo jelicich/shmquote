@@ -12,6 +12,8 @@ export class PdfExporterComponent implements OnInit {
     includeText = false;
     greeting: string;
     mainContent: string;
+    fileName: string;
+
     validDays = 5;
 
     table: string;
@@ -183,7 +185,9 @@ export class PdfExporterComponent implements OnInit {
         
         
         doc.putTotalPages(totalPagesExp);
-        doc.save('content.pdf')
+        let fileName = this.fileName ? this.fileName.replace(/\s+/g, '-') : '';
+        fileName = fileName.length > 0 ? fileName + '.pdf' : 'SHM-IT-cotizacion.pdf';
+        doc.save(fileName);
 
         this.close();
     }   

@@ -13,8 +13,14 @@
 
                 <mat-form-field class="PdfExporter-textarea">
                     <mat-label>Cuerpo del mensaje</mat-label>
-                    <textarea matInput rows="7" [(ngModel)]="mainContent" placeholder="Ej. A continuación detallamos los productos solicitados..." [disabled]="!includeText"></textarea>
+                    <textarea matInput rows="5" [(ngModel)]="mainContent" placeholder="Ej. A continuación detallamos los productos solicitados..." [disabled]="!includeText"></textarea>
                 </mat-form-field>
+                
+                <mat-form-field class="PdfExporter-fileName">
+                    <mat-label>Nombre de archivo (opcional)</mat-label>
+                    <input matInput placeholder="Ej. Cotizacion SBox," [(ngModel)]="fileName" class="PdfExporter-fileName">
+                </mat-form-field>
+
             </div>
             
 
