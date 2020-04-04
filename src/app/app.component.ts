@@ -162,7 +162,26 @@ export class AppComponent implements AfterViewInit{
                     this.usd = parseFloat(dolar.casa.venta.replace(',','.'));
                 }
             })
+        }).catch(()=>{
+            this.setUsdManually();
         })
+    }
+
+    setUsdManually() {
+        let manualUsd = prompt('No se pudo establecer el precio del dolar. Ingrese el valor manualmente:');
+        if(manualUsd === null) {
+            this.setUsdManually();
+        } else {
+            manualUsd = manualUsd.replace(/,/g, '.');
+            const usd = parseFloat(manualUsd);
+            if(usd) {
+                this.usd = usd;
+                const message = `Se estableció el valor del dolar en ${this.usd}`;
+                this.snackBar.open(message, 'OK', {duration: 5000});
+            } else {
+                this.setUsdManually();
+            }
+        }
     }
 
     saveQuote() {
@@ -170,19 +189,26 @@ export class AppComponent implements AfterViewInit{
         if(userInput === null) {
             return false;
         } else {
-            let rowsData = [];
-            this.productRows.forEach((row) => {
-                rowsData.push(row.getRowData());
-            });
+            if(userInput.length == 0) {
+                const message = 'No se pudo guardar. Ingrese un nombre.';
+                this.snackBar.open(message, 'OK', {duration: 5000});
+                return false;
+            } else {
+                let rowsData = [];
+                this.productRows.forEach((row) => {
+                    rowsData.push(row.getRowData());
+                });
 
-            const file = {
-                filename: userInput,
-                data: JSON.stringify(rowsData)
+                const file = {
+                    filename: userInput,
+                    data: JSON.stringify(rowsData)
+                }
+
+                this.fileService.saveFile(file).then((response: any) => {
+                    const message = response.message;
+                    this.snackBar.open(message, 'OK', {duration: 5000});
+                })
             }
-
-            this.fileService.saveFile(file).then((response: any) => {
-                alert(response.message);
-            })
         }
     }
 
@@ -194,7 +220,5 @@ export class AppComponent implements AfterViewInit{
         const table = this.generateTable()
         this.pdfExporter.open(table, this.usd);
     }
-
-
 
 }

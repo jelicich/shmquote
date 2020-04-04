@@ -1,16 +1,24 @@
 <div class="FileManager-overlay" *ngIf="isOpen">
     <div class="FileManager-window">
-        <h1>Abrir cotización:</h1>
-        <ul>
+        <h1>Abrir cotización</h1>
+
+        <mat-selection-list [multiple]="false" class="u-marginBm">
+            <mat-list-option *ngFor="let file of files; let i = index" (click)="selectFile(i)">
+                {{ file }}
+            </mat-list-option>
+            <mat-spinner *ngIf="isLoading" [diameter]="40"></mat-spinner>
+        </mat-selection-list>
+
+        <!-- <ul>
             <li *ngFor="let file of files; let i = index" (click)="selectFile($event, i)">
                 {{ file }}
             </li>
-        </ul>
+        </ul> -->
         <div fxLayout="row" fxLayoutAlign="space-between">
-            <button class="Button Button-icon-text" (click)="openFile()">
+            <button mat-flat-button color="primary" (click)="openFile()">
                 Abrir
             </button>
-            <button class="Button Button-danger Button-icon-text" (click)="close()">
+            <button mat-flat-button color="warn" (click)="close()">
                 Cerrar
             </button>
         </div>

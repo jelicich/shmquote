@@ -249,8 +249,9 @@ export class ProductRowComponent implements OnInit {
 	}
 
 	isEmptyField() {
-		if( (this.sku.length == 0 || this.name.length == 0) || 
-		!this.buyPrice || !this.quantity || !this.profit) {
+		const isMissingName = (this.sku.length == 0 && this.name.length == 0);
+		const isMissingNumber = (!this.buyPrice || !this.quantity || !this.profit);
+		if(isMissingName || isMissingNumber) {
 			return true;
 		} else {
 			return false;

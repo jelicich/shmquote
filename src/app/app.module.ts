@@ -12,6 +12,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
 
 
 import { BnaService } from './services/bna.service';
@@ -21,6 +22,7 @@ import { PdfExporterComponent } from './components/pdf-exporter/pdf-exporter.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { SplashComponent } from './components/splash/splash.component';
 
 
 
@@ -30,7 +32,8 @@ import { MatButtonModule } from '@angular/material/button';
         ProductRowComponent,
         HeaderComponent,
         FileManagerComponent,
-        PdfExporterComponent
+        PdfExporterComponent,
+        SplashComponent
     ],
     imports: [
         BrowserModule,
@@ -45,7 +48,8 @@ import { MatButtonModule } from '@angular/material/button';
         MatSelectModule,
         MatButtonModule,
         MatSnackBarModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatListModule      
     ],
     providers: [BnaService, FileService],
     bootstrap: [AppComponent]

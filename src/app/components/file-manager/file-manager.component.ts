@@ -13,6 +13,7 @@ export class FileManagerComponent implements OnInit {
     fmRef: ElementRef;
 
     isOpen = false;
+    isLoading;
 
     public hello = 'im fm';
 
@@ -29,11 +30,19 @@ export class FileManagerComponent implements OnInit {
     public open() {
         //this.fmRef.nativeElement.innerHTML;
         this.isOpen = true;
+        this.isLoading = true;
         this.fileService.getFileList().then((response: any) => {
+            this.isLoading = false;
             let f = response.files;
             f.splice(0,2)
             this.files = f;
         })
+
+        //remove, only local
+        // setTimeout(()=>{
+        //     this.isLoading = false;
+        //     this.files = ['file.json', 'coty.json', 'snf.json', 'sarasa.json', 'test.json','file.json', 'coty.json', 'snf.json', 'sarasa.json', 'test.json','file.json', 'coty.json', 'snf.json', 'sarasa.json', 'test.json','file.json', 'coty.json', 'snf.json', 'sarasa.json', 'test.json']
+        // },3000);
     }
 
     public close() {
@@ -41,17 +50,16 @@ export class FileManagerComponent implements OnInit {
         this.selectedFile = null;
     }
 
-    selectFile(e, i) {
-        let selected = document.querySelector('.selected-file');
-        selected && selected.classList.remove('selected-file');
-        e.target.classList.add('selected-file');
+    selectFile(i) {
         this.selectedFile = this.files[i];
     }
 
     openFile() {
         if(this.selectedFile) {
+            this.isLoading = true;
             this.fileService.openFile({filename: this.selectedFile}).then((response: any) => {
-                console.log(JSON.parse(response.file));
+                this.isLoading = false;
+                // console.log(JSON.parse(response.file));
                 
                 this.fileLoaded.emit({
                     rows: JSON.parse(response.file)  
