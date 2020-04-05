@@ -3,13 +3,41 @@
         <div class="u-marginRl">
             <img src="https://www.shmit.com.ar/assets/logos/shm-logo-256-white.png" alt="">
         </div>
-        <nav>
+        <nav fxHide fxShow.gt-md>
             <button mat-flat-button (click)="add.emit('')" title="Agregar producto"><i class="material-icons">add_circle</i> Agregar</button>
             <button mat-flat-button (click)="copy.emit('')" title="Copiar todo"><i class="material-icons">file_copy</i> Copiar</button>
             <button mat-flat-button (click)="export.emit('')" title="Exportar a PDF"><i class="material-icons">picture_as_pdf</i> Exportar</button>
             <button mat-flat-button (click)="save.emit('')" title="Guardar cotización"><i class="material-icons">save</i> Guardar</button>
             <button mat-flat-button (click)="open.emit('')" title="Abrir cotización"><i class="material-icons">folder_open</i> Abrir</button>
         </nav>
+        <div fxHide.gt-md>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="add.emit('')">
+                    <mat-icon>add_circle</mat-icon>
+                    <span>Agregar</span>
+                </button>
+                <button mat-menu-item disabled (click)="copy.emit('')">
+                    <mat-icon>file_copy</mat-icon>
+                    <span>Copiar</span>
+                </button>
+                <button mat-menu-item (click)="export.emit('')">
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    <span>Exportar</span>
+                </button>
+                <button mat-menu-item (click)="save.emit('')">
+                    <mat-icon>save</mat-icon>
+                    <span>Guardar</span>
+                </button>
+                <button mat-menu-item (click)="open.emit('')">
+                    <mat-icon>folder_open</mat-icon>
+                    <span>Abrir</span>
+                </button>
+            </mat-menu>
+        </div>
+        
     </div>
     <div>
         <mat-chip-list>
