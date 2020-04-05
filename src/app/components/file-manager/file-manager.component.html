@@ -15,9 +15,15 @@
             </li>
         </ul> -->
         <div fxLayout="row" fxLayoutAlign="space-between">
-            <button mat-flat-button color="primary" (click)="openFile()">
-                Abrir
-            </button>
+            <div>
+                <button mat-flat-button color="primary" (click)="openFile()" class="u-marginRm">
+                    Abrir
+                </button>
+                <button mat-flat-button color="warn" (click)="deleteFile()">
+                    Borrar
+                </button>
+            </div>
+            
             <button mat-flat-button color="warn" (click)="close()">
                 Cerrar
             </button>

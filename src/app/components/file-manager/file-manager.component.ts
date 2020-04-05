@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
 import { FileService } from '../../services/file.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'FileManagerComponent',
@@ -21,7 +22,7 @@ export class FileManagerComponent implements OnInit {
 
     selectedFile = null;
 
-    constructor(private fileService: FileService) {
+    constructor(private fileService: FileService, private snackBar: MatSnackBar) {
     }  
 
     ngOnInit(): void {
@@ -48,6 +49,7 @@ export class FileManagerComponent implements OnInit {
     public close() {
         this.isOpen = false;
         this.selectedFile = null;
+        this.files = [];
     }
 
     selectFile(i) {
@@ -67,6 +69,21 @@ export class FileManagerComponent implements OnInit {
 
                 this.close();
             })
+        } else {
+            alert('Seleccione una cotización');
+        }
+    }
+
+    deleteFile() {
+        if(this.selectedFile) {
+            const del = confirm('¿Desea borrar el archivo ' + this.selectedFile + '?')
+            if(del) {
+                this.isLoading = true;
+                this.fileService.deleteFile({filename: this.selectedFile}).then((response: any) => {
+                    this.open();
+                    this.snackBar.open(response.message, 'OK', {duration: 3000});
+                })
+            }    
         } else {
             alert('Seleccione una cotización');
         }

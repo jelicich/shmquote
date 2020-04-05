@@ -33,6 +33,10 @@ export class PdfExporterComponent implements OnInit {
     close() {
         this.isOpen = false;
         this.table = "";
+        this.includeText = false;
+        this.greeting = "";
+        this.mainContent = "";
+        this.fileName = "";
     }
 
     exportPdf() {                

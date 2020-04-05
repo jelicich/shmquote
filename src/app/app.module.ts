@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 
 import { BnaService } from './services/bna.service';
@@ -49,7 +51,9 @@ import { SplashComponent } from './components/splash/splash.component';
         MatButtonModule,
         MatSnackBarModule,
         MatCheckboxModule,
-        MatListModule      
+        MatListModule,
+        MatMenuModule,
+        MatIconModule 
     ],
     providers: [BnaService, FileService],
     bootstrap: [AppComponent]
