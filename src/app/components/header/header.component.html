@@ -17,25 +17,29 @@
                 <mat-icon>menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="add.emit('')">
+                <button mat-menu-item (click)="add.emit()">
                     <mat-icon>add_circle</mat-icon>
                     <span>Agregar</span>
                 </button>
-                <button mat-menu-item (click)="copy.emit('')">
+                <button mat-menu-item (click)="copy.emit()">
                     <mat-icon>file_copy</mat-icon>
                     <span>Copiar</span>
                 </button>
-                <button mat-menu-item (click)="export.emit('')">
+                <button mat-menu-item (click)="export.emit()">
                     <mat-icon>picture_as_pdf</mat-icon>
                     <span>Exportar</span>
                 </button>
-                <button mat-menu-item (click)="save.emit('')">
+                <button mat-menu-item (click)="save.emit()">
                     <mat-icon>save</mat-icon>
                     <span>Guardar</span>
                 </button>
-                <button mat-menu-item (click)="open.emit('')">
+                <button mat-menu-item (click)="open.emit()">
                     <mat-icon>folder_open</mat-icon>
                     <span>Abrir</span>
+                </button>
+                <button mat-menu-item (click)="showInfo()">
+                    <mat-icon>info</mat-icon>
+                    <span>Info</span>
                 </button>
             </mat-menu>
         </div>
