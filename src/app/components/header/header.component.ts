@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { InfoComponent } from '../info/info.component';
 
 @Component({
     selector: 'HeaderComponent',
@@ -13,7 +15,7 @@ export class HeaderComponent implements OnInit {
 	@Output() save = new EventEmitter();
 	@Output() open = new EventEmitter();
     
-    constructor() { }
+    constructor(private bottomSheet: MatBottomSheet) { }
 
     ngOnInit(): void {   
     }
@@ -23,5 +25,9 @@ export class HeaderComponent implements OnInit {
             const nfObject = new Intl.NumberFormat('en-US',{minimumFractionDigits: 2}); 
             this.dolar = nfObject.format(this.dolar);
         }
+    }
+
+    showInfo() {
+        this.bottomSheet.open(InfoComponent);
     }
 }
