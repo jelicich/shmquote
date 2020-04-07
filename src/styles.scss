@@ -1,5 +1,8 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+$mob: 1124px;
+$xs: 600px;
+
 html, body {
     margin: 0;
     padding: 0;
@@ -25,8 +28,19 @@ html, body {
     line-height: 25px !important;
     border-radius: 50% !important;
 
+    @media only screen and (max-width: $mob) {
+        padding: 10px !important;
+        margin: 10px !important;
+        width: 50px;
+        height: 50px;
+    }
+
     i {
         font-size: 15px;
+
+        @media only screen and (max-width: $mob) {
+            font-size: 26px;
+        }
     }
 }
 

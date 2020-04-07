@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {tax} from '../../config/quote';
+import { tax } from '../../config/quote';
 
 @Component({
 	selector: 'ProductRowComponent',

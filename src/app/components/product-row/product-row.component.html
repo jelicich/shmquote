@@ -1,16 +1,13 @@
-<div fxLayout="row" class="ProductRow" [ngClass]="rowStatusClass" (click)="cleanClass()">
+<div fxLayout="row" fxLayout.mob="column" class="ProductRow" [ngClass]="rowStatusClass" (click)="cleanClass()">
     
-
-    <div fxLayout="row" class="ProductRow-user-input">
+    
+    <div fxLayout="row"  class="ProductRow-user-input">
+        
         <div class="Input-sku">
             <mat-form-field class="mat-form-field-fluid">
                 <mat-label>SKU</mat-label>
                 <input matInput placeholder="Ej. GR5XFL8" [(ngModel)]="sku">
             </mat-form-field>
-            <!-- <label>
-                SKU
-                <input class="Input Input-sku" type="text" placeholder="SKU" [(ngModel)]="sku">
-            </label> -->
         </div>
         
         <div class="Input-name">
@@ -18,10 +15,6 @@
                 <mat-label>Nombre</mat-label>
                 <input matInput placeholder="Ej. OptiPlex 7460 AIO i7-8700" [(ngModel)]="name">
             </mat-form-field>
-            <!-- <label>
-                Nombre Producto
-                <input class="Input Input-name" type="text" placeholder="Nombre producto" [(ngModel)]="name">
-            </label> -->
         </div>
         
         <div class="Input-small">
@@ -29,10 +22,6 @@
                 <mat-label>Cant.</mat-label>
                 <input matInput type="number" placeholder="Ej. 2" [(ngModel)]="quantity" class="Input-number" (ngModelChange)="calculatePrice()" (blur)="validateInteger($event)">
             </mat-form-field>
-            <!-- <label>
-                Cantidad
-                <input class="Input Input-small Input-number" type="number" [(ngModel)]="quantity" (ngModelChange)="calculatePrice()">
-            </label> -->
         </div>
     
        <div class="Input-price">
@@ -40,21 +29,13 @@
                 <mat-label>Costo</mat-label>
                 <input matInput class="Input-number" placeholder="Ej. 1560.50" type="number" step=".01" [(ngModel)]="buyPrice" (ngModelChange)="calculatePrice()" (blur)="validateFloat($event)">
             </mat-form-field>
-            <!-- <label>
-                Precio Compra
-                <input class="Input Input-price Input-number" type="number" step=".01" [(ngModel)]="buyPrice" (ngModelChange)="calculatePrice()">
-            </label> -->
        </div>
     
-       <div class="Input-small">
+       <div class="Input-small Input-profit">
             <mat-form-field class="mat-form-field-fluid">
                 <mat-label>Margen</mat-label>
                 <input matInput class="Input-number" placeholder="Ej. 15" type="number" step=".10" [(ngModel)]="profit" (ngModelChange)="calculatePrice()" (blur)="validateFloat($event)">
             </mat-form-field>
-            <!-- <label>
-                Margen
-                <input class="Input Input-small Input-number" type="number" step=".01" [(ngModel)]="profit" (ngModelChange)="calculatePrice()">
-            </label> -->
        </div>
         
        
@@ -70,13 +51,6 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <!-- <label>
-                IVA
-                <select class="Input Input-small Input-number" name="iva" [(ngModel)]="iva" (ngModelChange)="calculatePrice()">
-                    <option value="10.5">10.5%</option>
-                    <option value="21">21%</option>
-                </select>
-            </label> -->
        </div>
         
         
@@ -92,13 +66,6 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <!-- <label>
-                Imp. Int.
-                <select class="Input Input-small Input-number" name="impInt" [(ngModel)]="impInt" (ngModelChange)="calculatePrice()">
-                    <option value="0">0%</option>
-                    <option value="7.8">7.8%</option>
-                </select>
-            </label> -->
         </div>
     
         
@@ -115,10 +82,6 @@
                 </mat-chip-list>
             </div>  
         </div>
-        <!-- <div class="Price">
-            <span class="label">Precio USD:</span>
-            <p><span class="currency">USD</span> {{fPrice}}</p>
-        </div> -->
     
         <div>
             <div class="Price-wrapper">
@@ -130,10 +93,6 @@
                 </mat-chip-list>
             </div>  
         </div>
-        <!-- <div class="Price">
-            <span class="label">Precio AR:</span>
-            <p><span class="currency">AR$</span> {{fPriceAr}}</p>
-        </div> -->
     
         <div>
             <div class="Price-wrapper">
@@ -145,10 +104,6 @@
                 </mat-chip-list>
             </div>  
         </div>
-        <!-- <div class="Price">
-            <span class="label">Importe USD:</span>
-            <p><span class="currency">USD</span> {{fTotalPrice}}</p>
-        </div> -->
     
         <div>
             <div class="Price-wrapper">
@@ -160,10 +115,6 @@
                 </mat-chip-list>
             </div>  
         </div>
-        <!-- <div class="Price">
-            <span class="label">Importe AR:</span>
-            <p><span class="currency">AR$</span> {{fTotalPriceAr}}</p>
-        </div> -->
 
         <div>
             <div class="Price-wrapper">
@@ -176,22 +127,10 @@
             </div>  
         </div>
     </div>
-
-    
-
-    
-    
-
-    <!-- <div class="Price">
-        <span class="label">PVP:</span>
-        <p><span class="currency">USD</span> {{finalPrice}}</p>
-    </div> -->
     
     <div fxLayout="row" class="ProductRow-actions"> 
         <button mat-flat-button color="primary" (click)="copyToClipboard()" title="Copiar" class="Button-icon"><i class="material-icons">file_copy</i></button>
         <button mat-flat-button color="warn" (click)="deleteRow()" title="Eliminar" class="Button-icon"><i class="material-icons">remove_circle</i></button>
     </div>  
-    
-    
-    
+
 </div>

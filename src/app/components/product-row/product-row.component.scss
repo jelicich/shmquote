@@ -1,8 +1,20 @@
+$xs: 600px;
+$mob: 1124px; 
+
 .ProductRow {
     margin-bottom: 10px;
     border-bottom: 1px dashed #ddd;
     padding: 10px 0;
     transition: background-color .5s ease, box-shadow .5s ease;
+
+    @media only screen and (max-width: $xs) {
+        border: 1px dashed #ddd;
+        padding: 5px;
+        border-radius: 8px 8px 0 0;
+        border-top-width: 10px;
+        border-top-style: solid;
+    }
+    
 }
 
 .ProductRow--missingInfo {
@@ -13,6 +25,10 @@
 .ProductRow-user-input {
     flex: 6;
 
+    @media only screen and (max-width: $xs) {
+        flex-wrap: wrap;
+    }
+    
     & > div {
         margin-right: 10px;
     }
@@ -103,5 +119,72 @@
         span {
             color: rgba(0,0,0,0.7);
         }
+    }
+}
+
+@media only screen and (max-width: $xs) {
+    .Input-sku,
+    .Input-name,
+    .Input-small,
+    .Input-tax,
+    .Input-price,
+    .Input-number {
+        flex: none;
+        margin: 0 !important;
+    }
+
+    .Input-sku {
+        width: 25%;
+        margin-right: 5% !important;
+    }
+
+    .Input-name {
+        width: 70%;
+    }
+
+    .Input-small,
+    .Input-price {
+        width: 30%;
+        margin-right: 5% !important;
+    }
+    
+    .Input-profit {
+        margin-right: 0 !important;
+    }
+    
+    .Input-tax {
+        width: 47.5%;
+        margin-right: 5% !important;
+    }
+    .Input-tax:last-child {
+        margin-right: 0 !important;
+    }
+
+    .ProductRow-totals {
+        flex-wrap: wrap;
+    }
+
+    .ProductRow-totals > div,
+    .ProductRow-totals > div:last-child {
+        flex: none;
+    }
+
+    .ProductRow-totals > div {
+        box-sizing: border-box;
+        width: 50%;
+        padding: 7px;
+    }
+
+    .ProductRow-totals > div:last-child {
+        width: 25%;
+    }
+
+    .ProductRow-actions {
+        justify-content: flex-end;
+        margin-top: -60px;
+    }
+
+    .Price {
+        margin: 0;
     }
 }

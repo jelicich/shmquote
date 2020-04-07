@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -15,7 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import { BnaService } from './services/bna.service';
 import { FileService } from './services/file.service';
@@ -25,8 +25,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { SplashComponent } from './components/splash/splash.component';
+import { InfoComponent } from './components/info/info.component';
 
-
+import { CustomBreakPointsProvider } from './breakpoints/custom-breakpoints';
+import { DeviceService } from './services/device.service';
+import { LayoutExtDirective } from './directives/layout-ext.directive';
+import { ShowHideExtDirective } from './directives/show-hide-ext.directive';
 
 @NgModule({
     declarations: [
@@ -35,7 +39,10 @@ import { SplashComponent } from './components/splash/splash.component';
         HeaderComponent,
         FileManagerComponent,
         PdfExporterComponent,
-        SplashComponent
+        SplashComponent,
+        InfoComponent,
+        LayoutExtDirective,
+        ShowHideExtDirective
     ],
     imports: [
         BrowserModule,
@@ -53,9 +60,10 @@ import { SplashComponent } from './components/splash/splash.component';
         MatCheckboxModule,
         MatListModule,
         MatMenuModule,
-        MatIconModule 
+        MatIconModule,
+        MatBottomSheetModule
     ],
-    providers: [BnaService, FileService],
+    providers: [BnaService, FileService, DeviceService, CustomBreakPointsProvider],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
