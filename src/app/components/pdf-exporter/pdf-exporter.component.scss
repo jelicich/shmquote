@@ -1,3 +1,6 @@
+$xs: 600px;
+$mob: 1124px; 
+
 .PdfExporter-overlay {
     background: rgba(255,255,255,0.5);
     position: fixed;
@@ -20,40 +23,19 @@
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
+
+    @media only screen and (max-width: $xs) {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        top: 0;
+        left: 0;
+    }
 }
 
 .PdfExporter-fields {
     flex: 1;
-
-    // input, textarea {
-    //     background: #fff;
-    //     border: none;
-    // }
-
-    // input[type="text"]:disabled,
-    // textarea:disabled {
-    //     border-color: #fff;
-    //     opacity: 0.5;
-    // }
-
-    // input[type="text"] {
-    //     border-bottom: 1px solid #ddd;
-    //     padding: 5px;
-    //     width: 250px;
-    //     display: block;
-    //     margin: 15px 0;
-    // }
-    
-    // textarea {
-    //     display: block;
-    //     width: 100%;
-    //     padding: 5px;
-    //     border: 1px solid #ddd;
-    //     margin-bottom: 15px;
-    //     flex: 1;
-    //     box-sizing: border-box;
-    //     resize: none;
-    // }
 }
 
 .PdfExporter-textInputs {
@@ -67,3 +49,4 @@
 .PdfExporter-fileName {
     width: 250px;
 }
+

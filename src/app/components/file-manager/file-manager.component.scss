@@ -1,3 +1,6 @@
+$xs: 600px;
+$mob: 1124px; 
+
 .FileManager-overlay {
     background: rgba(255,255,255,0.5);
     position: fixed;
@@ -20,6 +23,15 @@
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
+
+    @media only screen and (max-width: $xs) {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        top: 0;
+        left: 0;
+    }
 }
 
 mat-selection-list {

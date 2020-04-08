@@ -20,15 +20,9 @@
                     <mat-label>Nombre de archivo (opcional)</mat-label>
                     <input matInput placeholder="Ej. Cotizacion SBox," [(ngModel)]="fileName" class="PdfExporter-fileName">
                 </mat-form-field>
-
             </div>
-            
-
-            <!-- <div fxLayout="column" class="PdfExporter-textInputs">
-                <input type="text" [(ngModel)]="greeting" placeholder="Estimados 'Empresa'," [disabled]="!includeText">
-                <textarea [(ngModel)]="mainContent" placeholder="A continuación detallamos los productos solicitados..." [disabled]="!includeText"></textarea>
-            </div> -->
         </div>
+        
         <div fxLayout="row" fxLayoutAlign="space-between">
             <button mat-flat-button color="primary" (click)="exportPdf()">
                 OK

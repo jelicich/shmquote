@@ -1,10 +1,38 @@
+$xs: 600px;
+$mob: 1124px; 
+
 .Info {
     padding: 20px;
     position: relative;
+
+    @media only screen and (max-width: $xs) {
+        box-sizing: border-box;
+        padding-bottom: 50px;
+
+        .mat-list-base .mat-list-item .mat-line {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: initial;
+        }
+
+
+
+        .mat-list-base .mat-list-item {
+            height: auto;
+        }
+    }
 }
 
 .Info-actions {
     position: fixed;
     top: 20px;
     right: 20px;
+
+    @media only screen and (max-width: $xs) {
+        position: static;
+    }
+
+    button {
+        margin-bottom: 10px;
+    }
 }
