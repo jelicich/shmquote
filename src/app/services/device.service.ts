@@ -23,6 +23,5 @@ export class DeviceService {
         } else {
             this.isMobile = false;
         }
-        console.log('is mobile? ', this.isMobile)
     }
 }
