@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "services": "cp -r services dist/services",
-    "deploy:gh-pages": "ng build --prod && npm run services && gh-pages -d dist"
+    "deploy:gh-pages": "ng build --prod --baseHref=\"/shmquote/\" && npm run services && gh-pages -d dist/shmquote"
   },
   "private": true,
   "dependencies": {
